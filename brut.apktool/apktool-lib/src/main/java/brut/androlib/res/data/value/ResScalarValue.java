@@ -23,6 +23,7 @@ import brut.androlib.res.xml.ResXmlEncodable;
 import brut.androlib.res.xml.ResXmlEncoders;
 import java.io.IOException;
 import org.xmlpull.v1.XmlSerializer;
+import java.util.logging.Logger;
 
 /**
  * @author Ryszard Wiśniewski <brut.alll@gmail.com>
@@ -73,6 +74,10 @@ public abstract class ResScalarValue extends ResIntBasedValue implements
         boolean item = !"reference".equals(mType) && !type.equals(mType);
 
         String body = encodeAsResXmlValue();
+        if (body == null){
+            LOGGER.info(String.format("null res body: %s", res));
+            return;
+        }
 
         // check for resource reference
         if (!type.equalsIgnoreCase("color")) {
@@ -110,4 +115,6 @@ public abstract class ResScalarValue extends ResIntBasedValue implements
     }
 
     protected abstract String encodeAsResXml() throws AndrolibException;
+
+    private static final Logger LOGGER = Logger.getLogger(ResScalarValue.class.getName());
 }
