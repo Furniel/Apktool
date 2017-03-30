@@ -20,6 +20,7 @@ import android.util.TypedValue;
 import brut.androlib.AndrolibException;
 import brut.androlib.res.data.ResPackage;
 import brut.util.Duo;
+import java.util.logging.Logger;
 
 /**
  * @author Ryszard Wiśniewski <brut.alll@gmail.com>
@@ -71,6 +72,10 @@ public class ResValueFactory {
     }
 
     public ResIntBasedValue factory(String value, int rawValue) {
+        if (value == null){
+            LOGGER.info(String.format("null value string: %s", rawValue));
+            return new ResStringValue(value, rawValue);
+        }
         if (value.startsWith("res/")) {
             return new ResFileValue(value, rawValue);
         }
@@ -106,4 +111,6 @@ public class ResValueFactory {
     public ResReferenceValue newReference(int resID, String rawValue, boolean theme) {
         return new ResReferenceValue(mPackage, resID, rawValue, theme);
     }
+
+    private static final Logger LOGGER = Logger.getLogger(ResValueFactory.class.getName());
 }
