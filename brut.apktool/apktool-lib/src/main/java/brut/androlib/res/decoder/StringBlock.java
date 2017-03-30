@@ -145,6 +145,12 @@ public class StringBlock {
                 }
             }
             int start = ((i != -1) ? style[i + 1] : raw.length());
+
+            if (start > raw.length()){
+                LOGGER.info(String.format("Invalid length: %s reduced to %s", start, raw.length()));
+                start = raw.length();
+            }
+
             for (j = depth - 1; j >= 0; j--) {
                 int last = opened[j];
                 int end = style[last + 2];
